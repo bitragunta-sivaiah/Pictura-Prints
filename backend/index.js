@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
-import morgan from 'morgan';
+ 
  
 import compression from 'compression';
 import { connectDB } from './config/DB.js';
@@ -76,3 +76,7 @@ app.listen(port, () => {
     connectDB();
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+app.use('/',(req,res)=>{
+    res.send('running')
+})
