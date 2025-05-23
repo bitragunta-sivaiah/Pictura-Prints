@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton+SC&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+body{
+  font-family: "Urbanist", sans-serif;
+  
+}
+.heading{
+  font-family: "Anton SC", sans-serif;
+  letter-spacing: 3px;
+  color: #383818;
+}
+.headings{
+  font-family: "Anton SC", sans-serif;
+  letter-spacing: 3px;
+ 
+}
+button{
+  font-family: "Poppins", sans-serif;
+ 
+}
+p{
+  font-family: "Poppins", sans-serif;
+}
+h1,h2,h3,span{
+  font-family: "Urbanist", sans-serif;
+  font-weight: 900;
+}
+
+.main{
+  color: #313115;
+}
+ 
+
+
+*::-webkit-scrollbar{
+  display: none;
+}
+*::-webkit-scrollbar-thumb{
+  display: none;
+}
+*::-webkit-scrollbar-track{
+  display:none;
+}
+.border{
+  border: 1px solid #cdcdcd;
+  padding: 10px;
+  /* border-radius: 10px; */
+  
+}
+.border-b{
+  border-bottom: 1px solid #cdcdcd;
+  /* padding-bottom: 10px; */
+}
+.border-right{
+  border-right: 6px solid rgb(0, 191, 255);
+  padding: 10px;
+}
+.border-1{
+  border:1px solid #cdcdcd;
+   
+}
+.hoverborder:hover{
+  border: 1px solid #cdcdcd;
+  padding: 10px;
+}
+ 
+
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.some-element {
+  background-color: rgb(128, 180, 50); /* Example RGB value */
+}
