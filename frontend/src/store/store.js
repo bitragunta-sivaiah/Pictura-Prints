@@ -11,7 +11,6 @@ import addressReducer from './addressSlice';
 import cartReducer from './cartSlice';
 import deliveryPartnerReducer from './deliveryPartnerSlice';
 import customizationReducer from './customizationslice';
-import notificationReducer from './notificationSlice';
 import orderReducer from './orderSlice';
 import adminBranchReducer from './adminBranchSlice'
  import feedbackReducer from './feedbackSlice'
@@ -31,8 +30,6 @@ export const store = configureStore({
     cart:cartReducer,
     deliveryPartners:deliveryPartnerReducer,
     customization: customizationReducer,  
-    notifications: notificationReducer,
-   
     order: orderReducer,
     adminBranch : adminBranchReducer,
     feedback:feedbackReducer,

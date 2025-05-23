@@ -20,8 +20,7 @@ import deliveryPartnerRouter from './router/deliverypartnerRouter.js';
 import orderRouter from './router/orderRouter.js';
 import feedbackRouter from './router/feedbackRouter.js';
 import customizationRouter from './router/customizationRouter.js';
-import posterAdsRouter from './router/posterAdsRouter.js';
-import notificationRouter from './router/notificationRouter.js';
+ 
 import returnOrderRouter from './router/returnOrderRouter.js'
 dotenv.config();
 
@@ -67,8 +66,7 @@ app.use('/api/delivery-partners', deliveryPartnerRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/feedback', feedbackRouter);
 app.use('/api', customizationRouter);
-app.use('/api/poster-ads', posterAdsRouter);
-app.use('/api/notifications', notificationRouter);
+ 
 app.use('/api',returnOrderRouter)
 
 // Start the server

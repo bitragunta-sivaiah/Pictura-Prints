@@ -31,7 +31,7 @@ import DeliveryPartnerApplicationsAdmin from "../components/branch/DeliveryPartn
 import ApplyDeliveryPartner from "../components/user/ApplyDeliveryPartner";
 import ConfirmCustomizationPage from "../components/ConfirmCustomization";
 import ProductCustomDesign from "../components/CustomProductDesign";
-import NotificationManager from "../components/admin/NotificationManager";
+ 
  
 import ProductFormPage from "../components/ProductForm";
 import PlaceOrder from "../Page/PlaceOrder";
@@ -115,10 +115,7 @@ export const router = createBrowserRouter([
                         path:'requests',
                         element:<AdminBranchManagerApplications/>
                     },
-                    {
-                        path:'notifications',
-                        element:<NotificationManager/>
-                    },
+                  
                     {
                         path:'users',
                         element:<UserManagement/>

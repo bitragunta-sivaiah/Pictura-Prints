@@ -70,7 +70,7 @@ const AdminDashboard = () => {
 
     // Communication & Feedback
     { to: '/admin/requests', icon: <GitPullRequest className="" />, text: 'Requests' },
-    { to: '/admin/notifications', icon: <Bell className="" />, text: 'Notifications' },
+    
 
     
   ];
