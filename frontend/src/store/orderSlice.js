@@ -25,7 +25,7 @@ export const createOrder = createAsyncThunk(
                 // as payment is not yet captured.
                 // The component initiating this can handle the redirect.
             } else {
-                toast.success('Order placed successfully!');
+                // toast.success('Order placed successfully!');
             }
             return response.data;
         } catch (error) {

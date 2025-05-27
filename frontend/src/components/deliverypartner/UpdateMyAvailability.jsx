@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast';
 import { Clock, Calendar, CheckCircle, XCircle, Loader2, Edit3, Save, X } from 'lucide-react';
 
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-const availabilityOptions = ['available', 'on_delivery', 'offline', 'break'];
+const availabilityOptions = [ 'offline','available', 'on_delivery', 'offline', 'break'];
 
 const UpdateMyAvailability = () => {
     const dispatch = useDispatch();

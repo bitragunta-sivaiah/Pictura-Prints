@@ -42,8 +42,10 @@ const BranchManagerDashboard = () => {
 
     const branchManagerNavLinks = [
         { to: '/branch-manager', icon: <Layout className="" />, text: 'Dashboard' },
+        { to: '/branch-manager/profile', icon: <Layout className="" />, text: 'Profile' },
         { to: '/branch-manager/applications', icon: <Layout className="" />, text: 'New Applications' },
         { to: '/branch-manager/active_orders', icon: <Package className="" />, text: 'Active orders' },
+        { to: '/branch-manager/orders', icon: <Package className="" />, text: 'View orders' },
         { to: '/branch-manager/delivery-partners', icon: <Truck className="" />, text: 'Manage Delivery Partners' },
     ];
 

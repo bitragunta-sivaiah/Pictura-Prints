@@ -1,16 +1,16 @@
 import React from 'react';
 import { MessageSquare, Phone, ArrowRight, MessageCircle, Mail, Search, Headset } from 'lucide-react';
-
+import {Link} from 'react-router-dom'
 const Footer = () => {
   return (
     <footer className="bg-black mt-20 text-white">
       {/* Yellow Banner */}
       <div className="relative bg-yellow-100 py-8 text-center">
-        <div className="flex items-center justify-center md:justify-between fledelx-wrap gap-4 w-full max-w-7xl mx-auto">
+        <div className="flex items-center justify-center md:justify-between flex-wrap gap-4 w-full max-w-7xl mx-auto">
           <h2 className="text-3xl md:text-5xl  font-semibold heading mb-4">Ready to raise your t-shirt game?</h2>
-          <button className="bg-[#383818] text-white font-bold py-3 px-6 rounded-full  focus:outline-none focus:ring-2 focus:ring-yellow-400">
+          <Link to={'/productlist'} className="bg-[#383818] text-white font-bold py-3 px-6 rounded-full  focus:outline-none focus:ring-2 focus:ring-yellow-400">
             Begin your order <ArrowRight className="inline-block ml-2" size={16} />
-          </button>
+          </Link>
         </div>
         {/* Add a visual effect for the rough edge if needed, perhaps with a background image or SVG */}
       </div>
@@ -100,10 +100,7 @@ const Footer = () => {
         © {new Date().getFullYear()} Your Company. All rights reserved.
       </div>
 
-      {/* Chat Icon (Fixed Position) */}
-      <div className="fixed bottom-6 right-6 bg-yellow-500 text-black rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-yellow-600 cursor-pointer">
-        <Headset className="w-6 h-6" />
-      </div>
+    
     </footer>
   );
 };

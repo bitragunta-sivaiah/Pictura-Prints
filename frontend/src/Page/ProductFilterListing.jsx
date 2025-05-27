@@ -12,7 +12,8 @@ import {
 } from '../store/productSlice';
 import { X, RotateCw, Filter } from 'lucide-react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
-import Banner from '../components/Banner';
+ 
+import PostAds from '../components/PostAds';
 
 const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-IN', {
@@ -256,12 +257,12 @@ const ProductFilterListing = () => {
     });
 
     return (
-        <div className="bg-gray-100 mt-20 pb-10">
-            <Banner position={'product_category_sidebar'} />
+        <div className="bg-gray-100 mt-24 pb-10">
+            <PostAds position={'product_listing_advertisement'} />
            
-            <div className="w-[100vw] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div className="w-[100vw] mx-auto px-4 sm:px-6 lg:px-8 mt-10 grid grid-cols-1 lg:grid-cols-4 gap-8">
                 {/* Mobile Filter Button */}
-                <div className="lg:hidden fixed top-20 left-0 right-0     p-4 z-50 flex justify-end items-center">
+                <div className="lg:hidden fixed top-40 left-0 right-0     p-4 z-50 flex justify-end items-center">
                     <button
                         onClick={() => setIsMobileFiltersOpen(true)}
                         className="bg-indigo-600 text-white py-2 px-4 rounded-md focus:outline-none"

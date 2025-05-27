@@ -225,7 +225,14 @@ router.get('/:id', protect, async (req, res) => {
             .populate('user', 'username email')
             .populate('shippingAddress')
             .populate('billingAddress')
-            .populate('items.product')
+            .populate({
+                path: 'items.product',
+                model: 'Product'
+            })
+            .populate({
+                path: 'items.customizations', // This is the change: specify the nested path
+                model: 'Customization'       // Reference the Customization model
+            })
             .populate('coupon')
             .populate('branchStation')
             .populate('trackingDetails')
@@ -256,6 +263,10 @@ router.get('/', protect, async (req, res) => {
             .populate('coupon')
             .populate('branchStation')
             .populate('trackingDetails') // Include trackingDetails for admin view
+             .populate({
+                path: 'items.customizations', // This is the change: specify the nested path
+                model: 'Customization'       // Reference the Customization model
+            })
             .sort({ orderDate: -1 });
         res.json(orders);
     } catch (error) {

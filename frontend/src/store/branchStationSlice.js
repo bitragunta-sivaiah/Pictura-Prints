@@ -97,7 +97,7 @@ export const assignDeliveryPartnerToOrder = createAsyncThunk(
     deliveryPartnerId, 
     location 
 });  
-            toast.success('Delivery partner assigned successfully!');
+            // toast.success(response.data.message);
             return response.data.data; // Return the updated order data
         } catch (error) {
             const message = error?.response?.data?.message || 'Failed to assign delivery partner.';

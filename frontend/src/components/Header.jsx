@@ -14,7 +14,7 @@ const Header = () => {
       if (user.role === 'admin') {
         navigate('/admin');
       } else if (user.role === 'user') {
-        navigate('/user');
+        navigate('/user/profile');
       } else if (user.role === 'branchManager') {
         navigate('/branch-manager');
       } else if (user.role === 'deliveryPartner') {

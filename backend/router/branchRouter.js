@@ -17,7 +17,7 @@ router.get('/managed', protect, asyncHandler(async (req, res) => {
 
     // Find the BranchStation where the current user is the manager
     const branchStation = await BranchStation.findOne({ manager: req.user._id })
-        .populate('manager', 'username email') // Populate manager details (username, email)
+        .populate('manager') // Populate manager details (username, email)
         .populate({
             path: 'orders', // Populate all orders linked to this branch
             select: '_id customerName totalAmount status' // Select relevant order fields for table display

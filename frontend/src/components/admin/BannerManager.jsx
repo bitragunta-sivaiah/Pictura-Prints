@@ -51,7 +51,7 @@ const BannerManager = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    bannerNumber: '',
+    bannerNumber: '', // This will be auto-generated for new banners
     desktopImage: [],
     mobileImage: [],
     postBg: '#ffffff', // Default background color
@@ -77,12 +77,15 @@ const BannerManager = () => {
     if (uploadedImageUrl && uploadingImage === false && !uploadImageError) {
       if (desktopImageFile) {
         setFormData((prev) => ({ ...prev, desktopImage: [...prev.desktopImage, uploadedImageUrl] }));
+        toast.success('Desktop image uploaded successfully!');
         setDesktopImageFile(null);
       } else if (mobileImageFile) {
         setFormData((prev) => ({ ...prev, mobileImage: [...prev.mobileImage, uploadedImageUrl] }));
+        toast.success('Mobile image uploaded successfully!');
         setMobileImageFile(null);
       } else if (imageUrlFile) {
         setFormData((prev) => ({ ...prev, imageUrl: uploadedImageUrl }));
+        toast.success('Advertisement image uploaded successfully!');
         setImageUrlFile(null);
       }
       dispatch(clearUploadState());
@@ -112,7 +115,7 @@ const BannerManager = () => {
     }
   };
 
-  const handleUploadImage = async (file, type) => {
+  const handleUploadImage = async (file) => {
     if (!file) {
       toast.error('No file selected for upload.');
       return;
@@ -135,11 +138,15 @@ const BannerManager = () => {
   };
 
   const openCreateModal = () => {
-    setCurrentBanner(null);
+    // Calculate the next available banner number
+    const maxBannerNumber = banners.reduce((max, banner) => Math.max(max, banner.bannerNumber || 0), 0);
+    const nextBannerNumber = maxBannerNumber + 1;
+
+    setCurrentBanner(null); // Indicate creating a new banner
     setFormData({
       title: '',
       description: '',
-      bannerNumber: '',
+      bannerNumber: nextBannerNumber.toString(), // Set the auto-generated number
       desktopImage: [],
       mobileImage: [],
       postBg: '#ffffff', // Reset to default
@@ -163,7 +170,7 @@ const BannerManager = () => {
     setFormData({
       title: banner.title || '',
       description: banner.description || '',
-      bannerNumber: banner.bannerNumber || '',
+      bannerNumber: banner.bannerNumber ? banner.bannerNumber.toString() : '', // Ensure it's a string for input value
       desktopImage: banner.desktopImage || [],
       mobileImage: banner.mobileImage || [],
       postBg: banner.postBg || '#ffffff', // Set existing background or default
@@ -194,15 +201,15 @@ const BannerManager = () => {
 
     const dataToSubmit = {
       ...formData,
-      bannerNumber: Number(formData.bannerNumber),
+      bannerNumber: Number(formData.bannerNumber), // Convert to number
       priority: Number(formData.priority),
       startDate: formData.startDate ? new Date(formData.startDate) : undefined,
       endDate: formData.endDate ? new Date(formData.endDate) : undefined,
     };
 
     // Basic validation
-    if (!dataToSubmit.title || !dataToSubmit.position || !dataToSubmit.bannerNumber) {
-      toast.error('Title, Banner Number, and Position are required.');
+    if (!dataToSubmit.title || !dataToSubmit.position) {
+      toast.error('Title and Position are required.');
       return;
     }
 
@@ -224,8 +231,10 @@ const BannerManager = () => {
 
     if (currentBanner) {
       await dispatch(updateBannerByNumber({ bannerNumber: currentBanner.bannerNumber, bannerData: dataToSubmit }));
+      toast.success('Banner updated successfully!');
     } else {
       await dispatch(createBanner(dataToSubmit));
+      toast.success('Banner created successfully!');
     }
     setIsModalOpen(false);
     dispatch(fetchBanners()); // Refresh the list
@@ -234,6 +243,7 @@ const BannerManager = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this banner?')) {
       await dispatch(deleteBannerById(id));
+      toast.success('Banner deleted successfully!');
       dispatch(fetchBanners()); // Refresh the list
     }
   };
@@ -258,11 +268,11 @@ const BannerManager = () => {
   };
 
   if (loading && !isModalOpen) {
-    return <div className="text-center py-4 text-lg">Loading banners...</div>;
+    return <div className="text-center py-4 text-lg text-gray-700">Loading banners...</div>;
   }
 
   if (error && !isModalOpen) {
-    return <div className="text-center py-4 text-lg text-red-500">Error: {error}</div>;
+    return <div className="text-center py-4 text-lg text-red-600">Error: {error}</div>;
   }
 
   return (
@@ -401,18 +411,29 @@ const BannerManager = () => {
                 ></textarea>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="bannerNumber" className="block text-sm font-medium text-gray-700">Banner Number</label>
-                  <input
-                    type="number"
-                    id="bannerNumber"
-                    name="bannerNumber"
-                    value={formData.bannerNumber}
-                    onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
-                    required
-                  />
-                </div>
+                {/* Banner Number field is now conditional */}
+                {currentBanner ? ( // Show only when editing
+                  <div>
+                    <label htmlFor="bannerNumber" className="block text-sm font-medium text-gray-700">Banner Number</label>
+                    <input
+                      type="number"
+                      id="bannerNumber"
+                      name="bannerNumber"
+                      value={formData.bannerNumber}
+                      onChange={handleChange}
+                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100 cursor-not-allowed"
+                      readOnly // Make it read-only for editing
+                    />
+                  </div>
+                ) : (
+                  // Display auto-generated banner number for creation (optional, can remove this div if not needed)
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Auto-Generated Banner Number</label>
+                    <p className="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm p-2 text-gray-700">
+                      {formData.bannerNumber}
+                    </p>
+                  </div>
+                )}
                 <div>
                   <label htmlFor="position" className="block text-sm font-medium text-gray-700">Position</label>
                   <select
@@ -448,7 +469,7 @@ const BannerManager = () => {
                     />
                     <button
                       type="button"
-                      onClick={() => handleUploadImage(imageUrlFile, 'imageUrl')}
+                      onClick={() => handleUploadImage(imageUrlFile)}
                       disabled={!imageUrlFile || uploadingImage}
                       className={`py-2 px-4 rounded-md text-white font-semibold flex items-center ${
                         !imageUrlFile || uploadingImage ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'
@@ -507,7 +528,7 @@ const BannerManager = () => {
                       />
                       <button
                         type="button"
-                        onClick={() => handleUploadImage(desktopImageFile, 'desktop')}
+                        onClick={() => handleUploadImage(desktopImageFile)}
                         disabled={!desktopImageFile || uploadingImage}
                         className={`py-2 px-4 rounded-md text-white font-semibold flex items-center ${
                           !desktopImageFile || uploadingImage ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'
@@ -546,7 +567,7 @@ const BannerManager = () => {
                       />
                       <button
                         type="button"
-                        onClick={() => handleUploadImage(mobileImageFile, 'mobile')}
+                        onClick={() => handleUploadImage(mobileImageFile)}
                         disabled={!mobileImageFile || uploadingImage}
                         className={`py-2 px-4 rounded-md text-white font-semibold flex items-center ${
                           !mobileImageFile || uploadingImage ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'

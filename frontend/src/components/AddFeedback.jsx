@@ -401,7 +401,7 @@ const AddFeedbackPage = () => {
 
         if (submitFeedback.fulfilled.match(resultAction)) {
             toast.success('Feedback submitted successfully!');
-            navigate(`/my-orders/${orderId}`);
+            navigate(`/order/${orderId}`);
         } else {
             // Error toast is already handled by the thunk's error message
             console.error("Failed to submit feedback:", resultAction.payload);

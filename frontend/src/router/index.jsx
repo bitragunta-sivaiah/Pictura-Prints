@@ -52,6 +52,9 @@ import BranchOrderManagement from "../components/branch/BranchOrderManagement";
 import DeliveryPartnerOrders from "../components/deliverypartner/DeliveryPartnerAllOrders";
 import UpdateMyAvailability from "../components/deliverypartner/UpdateMyAvailability";
 import BranchDeliveryPartners from "../components/branch/BranchDeliveryPartners";
+import SearchProductPage from "../Page/SearchPage";
+import BranchManagerProfile from "../components/branch/BranchManagerProfile";
+import BranchOrdersSummary from "../components/branch/BranchOrdersSummary";
 
 
 export const router = createBrowserRouter([
@@ -81,6 +84,14 @@ export const router = createBrowserRouter([
                     {
                         path:'applications',
                         element:<DeliveryPartnerApplicationsAdmin/>
+                    },
+                    {
+                        path:'orders',
+                        element:<BranchOrdersSummary/>
+                    },
+                    {
+                        path:'profile',
+                        element:<BranchManagerProfile/>
                     },
                     {
                         path:'active_orders',
@@ -204,5 +215,6 @@ export const router = createBrowserRouter([
             {path:'orders',element:<DeliveryPartnerOrders/>},
             {path:'',element:<DeliveryPartnerEarning/>},
         ]
-    }
+    },
+                {path:'/search',element:<SearchProductPage/>},
 ]);

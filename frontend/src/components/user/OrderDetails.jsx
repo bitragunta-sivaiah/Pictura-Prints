@@ -19,6 +19,8 @@ import {
     RotateCwIcon,
     BanIcon,
     PhoneCallIcon,
+    UserIcon,
+    X,
 } from 'lucide-react';
 
 const OPEN_CAGE_API_KEY = 'b80ec623de954c3abd3bd564ccdcf27b'; // Replace with your actual key
@@ -28,6 +30,7 @@ const Loader = () => (
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-indigo-500"></div>
     </div>
 );
+ 
 
 const Message = ({ variant = 'info', children }) => (
     <div className={`bg-${variant}-50 border border-${variant}-300 text-${variant}-700 px-4 py-3 rounded relative`} role="alert">
@@ -65,7 +68,23 @@ const OrderDetails = () => {
     const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
     const [returnItemsDetails, setReturnItemsDetails] = useState([]);
     const [generalReturnReason, setGeneralReturnReason] = useState('');
+const [showCustomDetails, setShowCustomDetails] = useState(false);
+ const [modalImageUrl, setModalImageUrl] = useState(null);
 
+    // Function to open the modal with the clicked image
+    const openImageModal = (imageUrl) => {
+        setModalImageUrl(imageUrl);
+    };
+
+    // Function to close the modal
+    const closeImageModal = () => {
+        setModalImageUrl(null);
+    };
+
+
+    const toggleCustomDetails = () => {
+        setShowCustomDetails(!showCustomDetails);
+    };
     // Random tracking numbers for demonstration (replace with actual backend logic if needed)
     const [orderTrackingNumber, setOrderTrackingNumber] = useState('');
     const [returnTrackingNumber, setReturnTrackingNumber] = useState('');
@@ -420,72 +439,225 @@ const OrderDetails = () => {
                     <p className="text-gray-500 mt-1">Order Number: {order.orderNumber}</p>
                 </div>
 
-                {/* Section 1: Order and Product Details */}
-                <div className="bg-white shadow rounded-lg overflow-hidden mb-6">
-                    <div className="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
-                        <h2 className="text-lg font-semibold text-gray-800 flex items-center">
-                            <PackageIcon className="mr-2 w-5 h-5 text-indigo-500" />
-                            Order & Product Summary
-                        </h2>
-                    </div>
-                    <ul className="divide-y divide-gray-200">
-                        {order.items &&
-                            order.items.map((item) => {
-                                const colorMatch = item.product?.availableColors?.find(
-                                    (colorObj) => colorObj.color === item.color
-                                );
-                                const imageUrl = colorMatch?.images?.front;
+               {/* Section 1: User Details */}
+                <div className="bg-white shadow rounded-lg overflow-hidden mb-6">
+                    <div className="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+                        <h2 className="text-lg font-semibold text-gray-800 flex items-center">
+                            <UserIcon className="mr-2 w-5 h-5 text-teal-500" />
+                            User Details
+                        </h2>
+                    </div>
+                    <div className="px-4 py-5 sm:px-6">
+                        <p className="text-gray-700">
+                            <span className="font-semibold">Username:</span> {order.user.username}
+                        </p>
+                        <p className="text-gray-700">
+                            <span className="font-semibold">Email:</span> {order.user.email}
+                        </p>
+                    </div>
+                </div>
 
-                                return (
-                                    <li key={item._id} className="px-4 py-4 sm:px-6 flex items-center">
-                                        <div className="w-24 h-24 rounded-md overflow-hidden shadow-sm mr-4">
-                                            {imageUrl ? (
-                                                <img
-                                                    src={imageUrl}
-                                                    alt={item.product.name}
-                                                    className="w-full h-full object-cover"
-                                                />
-                                            ) : (
-                                                <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                                                    <InfoIcon className="w-8 h-8 text-gray-400" />
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="flex-grow">
-                                            <p className="font-semibold text-gray-800">{item.product?.name}</p>
-                                            <div className="flex items-center text-sm text-gray-600">
-                                                Color:
-                                                <span
-                                                    className="inline-block w-5 h-5 rounded-full ml-1 shadow-sm"
-                                                    style={{ backgroundColor: item.color }}
-                                                ></span>
-                                                <span className="ml-2 font-medium">{item.color}</span>,
-                                                <span className="ml-4">Size: <span className="font-medium">{item.size}</span></span>
-                                            </div>
-                                            {item.customizations && item.customizations.length > 0 && (
-                                                <div className="mt-1">
-                                                    <p className="text-xs text-gray-500">Customizations:</p>
-                                                    <ul className="list-disc pl-4">
-                                                        {item.customizations.map((customization) => (
-                                                            <li key={customization._id} className="text-xs text-gray-500">
-                                                                {customization.type}: {customization.value} (+₹{(customization.price / 100).toFixed(2)})
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                            )}
-                                            <p className="text-gray-700 text-sm mt-1">
-                                                Quantity: <span className="font-semibold">{item.quantity}</span>
-                                            </p>
-                                            <p className="text-gray-800 font-bold mt-1">
-                                                Price: ₹{(item.finalPrice )}
-                                            </p>
-                                        </div>
-                                    </li>
-                                );
-                            })}
-                    </ul>
-                </div>
+                {/* Section 2: Order and Product Details */}
+                <div className="bg-white shadow rounded-lg overflow-hidden mb-6">
+                    <div className="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+                        <h2 className="text-lg font-semibold text-gray-800 flex items-center">
+                            <PackageIcon className="mr-2 w-5 h-5 text-indigo-500" />
+                            Order & Product Summary
+                        </h2>
+                    </div>
+                    <ul className="divide-y divide-gray-200">
+                        {order.items &&
+                            order.items.map((item) => {
+                                const colorMatch = item.product?.availableColors?.find(
+                                    (colorObj) => colorObj.color === item.color
+                                );
+                                const imageUrl = colorMatch?.images?.front;
+
+                                return (
+                                    <li key={item._id} className="px-4 py-4 sm:px-6 flex items-center">
+                                        <div className="w-24 h-24 rounded-md overflow-hidden shadow-sm mr-4">
+                                            {imageUrl ? (
+                                                <img
+                                                    src={imageUrl}
+                                                    alt={item.product.name}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                                                    <InfoIcon className="w-8 h-8 text-gray-400" />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="flex-grow">
+                                            <p className="font-semibold text-gray-800">{item.product?.name}</p>
+                                            <div className="flex items-center text-sm text-gray-600">
+                                                Color:
+                                                <span
+                                                    className="inline-block w-5 h-5 rounded-full ml-1 shadow-sm"
+                                                    style={{ backgroundColor: item.color }}
+                                                ></span>
+                                                <span className="ml-2 font-medium">{item.color}</span>,
+                                                <span className="ml-4">Size: <span className="font-medium">{item.size}</span></span>
+                                            </div>
+                                          {item.customizations && item.customizations.length > 0 && (
+                <div className="mt-2"> {/* Added margin-top for spacing below other item details */}
+                    <button
+                        onClick={toggleCustomDetails}
+                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-sm"
+                    >
+                        {showCustomDetails ? 'Hide Customization Details' : 'Show Customization Details'}
+                    </button>
+
+                    {showCustomDetails && (
+                        <div className="mt-2 p-3 border rounded-md bg-gray-50"> {/* Added some padding, border, and background for the details section */}
+                            <p className="text-xs text-gray-500 font-semibold mb-2">Customizations:</p>
+                            <ul className="list-disc pl-4 mt-1">
+                                {item.customizations.map((customization, idx) => (
+                <li key={customization._id || idx} className="text-xs text-gray-600 mb-2">
+                    {/* Front Customizations */}
+                    {customization.front && customization.front.length > 0 && (
+                        <div className="mb-1">
+                            <p className="font-medium">Front Design:</p>
+                            {customization.front.map((f, fIdx) => (
+                                <div key={f._id || fIdx} className="ml-2">
+                                    {f.url && (
+                                        <img
+                                            src={f.url}
+                                            alt="Front Design"
+                                            className="w-10 h-auto mt-1 border-1 rounded cursor-pointer" // Added cursor-pointer
+                                            onClick={() => openImageModal(f.url)} // Added onClick handler
+                                        />
+                                    )}
+                                    {f.text && (
+                                        <p style={{
+                                            fontFamily: f.fontFamily || 'sans-serif',
+                                            
+                                            fontWeight: f.fontWeight || 'normal',
+                                            color: f.color || '#000000',
+                                            textTransform: f.fontCase === 'uppercase' ? 'uppercase' :
+                                                f.fontCase === 'lowercase' ? 'lowercase' : 'none'
+                                        }}className='text-md mt-2'>
+                                            Text: {f.text}
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Back Customizations */}
+                    {customization.back && customization.back.length > 0 && (
+                        <div className="mb-1">
+                            <p className="font-medium">Back Design:</p>
+                            {customization.back.map((b, bIdx) => (
+                                <div key={b._id || bIdx} className="ml-2">
+                                    {b.url && (
+                                        <img
+                                            src={b.url}
+                                            alt="Back Design"
+                                            className="max-w-xs h-auto mt-1 border rounded cursor-pointer" // Added cursor-pointer
+                                            onClick={() => openImageModal(b.url)} // Added onClick handler
+                                        />
+                                    )}
+                                    {b.text && (
+                                        <p style={{
+                                            fontFamily: b.fontFamily || 'sans-serif',
+                                            
+                                            fontWeight: b.fontWeight || 'normal',
+                                            color: b.color || '#000000',
+                                            textTransform: b.fontCase === 'uppercase' ? 'uppercase' :
+                                                b.fontCase === 'lowercase' ? 'lowercase' : 'none'
+                                        }} className='text-md mt-2'>
+                                            Text: {b.text}
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Left Sleeve Customizations */}
+                    {customization.leftSleeve && customization.leftSleeve.length > 0 && (
+                        <div className="mb-1">
+                            <p className="font-medium">Left Sleeve Design:</p>
+                            {customization.leftSleeve.map((l, lIdx) => (
+                                <div key={l._id || lIdx} className="ml-2">
+                                    {l.url && (
+                                        <img
+                                            src={l.url}
+                                            alt="Left Sleeve Design"
+                                            className="max-w-xs h-auto mt-1 border rounded cursor-pointer" // Added cursor-pointer
+                                            onClick={() => openImageModal(l.url)} // Added onClick handler
+                                        />
+                                    )}
+                                    {l.text && (
+                                        <p style={{
+                                            fontFamily: l.fontFamily || 'sans-serif',
+                                            
+                                            fontWeight: l.fontWeight || 'normal',
+                                            color: l.color || '#000000',
+                                            textTransform: l.fontCase === 'uppercase' ? 'uppercase' :
+                                                l.fontCase === 'lowercase' ? 'lowercase' : 'none'
+                                        }} className='text-md mt-2'>
+                                            Text: {l.text}
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Right Sleeve Customizations */}
+                    {customization.rightSleeve && customization.rightSleeve.length > 0 && (
+                        <div className="mb-1">
+                            <p className="font-medium">Right Sleeve Design:</p>
+                            {customization.rightSleeve.map((r, rIdx) => (
+                                <div key={r._id || rIdx} className="ml-2">
+                                    {r.url && (
+                                        <img
+                                            src={r.url}
+                                            alt="Right Sleeve Design"
+                                            className="max-w-xs h-auto mt-1 border rounded cursor-pointer" // Added cursor-pointer
+                                            onClick={() => openImageModal(r.url)} // Added onClick handler
+                                        />
+                                    )}
+                                    {r.text && (
+                                        <p style={{
+                                            fontFamily: r.fontFamily || 'sans-serif',
+                                         
+                                            fontWeight: r.fontWeight || 'normal',
+                                            color: r.color || '#000000',
+                                            textTransform: r.fontCase === 'uppercase' ? 'uppercase' :
+                                                r.fontCase === 'lowercase' ? 'lowercase' : 'none'
+                                        }} className='text-md mt-2'>
+                                            Text: {r.text}
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </li>
+            ))}
+
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            )}
+                                            <p className="text-gray-700 text-sm mt-1">
+                                                Quantity: <span className="font-semibold">{item.quantity}</span>
+                                            </p>
+                                            <p className="text-gray-800 font-bold mt-1">
+                                                Price: ₹{(item.finalPrice) }
+                                            </p>
+                                        </div>
+                                    </li>
+                                );
+                            })}
+                    </ul>
+                </div>
+
 
                 {/* Section 2: Order Status */}
                 <div className="bg-white shadow rounded-lg overflow-hidden mb-6">
@@ -871,6 +1043,27 @@ const OrderDetails = () => {
                     </div>
                 )}
             </div>
+{/* Image Modal/Lightbox */}
+            {modalImageUrl && (
+                <div
+                    className="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50 p-4"
+                    onClick={closeImageModal} // Close modal when clicking outside the image
+                >
+                    <div className="relative" onClick={e => e.stopPropagation()}> {/* Prevent closing when clicking on the image */}
+                        <img
+                            src={modalImageUrl}
+                            alt="Full Screen Customization"
+                            className="max-w-full max-h-[90vh] object-contain rounded-lg shadow"
+                        />
+                        <button
+                            className="absolute top-2 right-2 bg-white text-gray-800 rounded-full p-2 text-lg font-bold hover:bg-gray-200"
+                            onClick={closeImageModal}
+                        >
+                            <X/>
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

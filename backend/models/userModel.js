@@ -240,7 +240,7 @@ const userSchema = new mongoose.Schema(
                 type: String,
             }],
             rejectionReason: { type: String, trim: true }, // Store reason if application is rejected
-            branchStation: {  // 신청자가 희망하는 지점
+            branchStation: {  
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'BranchStation',
                 index: true,
